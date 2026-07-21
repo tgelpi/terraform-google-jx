@@ -116,7 +116,7 @@ resource "google_service_account_iam_member" "bucketrepo_workload_identity_user"
   member             = "serviceAccount:${var.gcp_project}.svc.id.goog[${var.jenkins_x_namespace}/bucketrepo-bucketrepo]"
 }
 
-resource "kubernetes_service_account" "build_controller_sa" {
+resource "kubernetes_service_account_v1" "build_controller_sa" {
   count                           = var.jx2 ? 1 : 0
   automount_service_account_token = true
   metadata {
@@ -140,7 +140,7 @@ resource "kubernetes_service_account" "build_controller_sa" {
 
 // ----------------------------------------------------------------------------
 // Kaniko
-resource "kubernetes_service_account" "kaniko_sa" {
+resource "kubernetes_service_account_v1" "kaniko_sa" {
   count                           = var.jx2 ? 1 : 0
   automount_service_account_token = true
   metadata {
@@ -178,7 +178,7 @@ resource "google_service_account_iam_member" "tekton_sa_workload_identity_user" 
   member             = "serviceAccount:${var.gcp_project}.svc.id.goog[${var.jenkins_x_namespace}/tekton-bot]"
 }
 
-resource "kubernetes_service_account" "tekton_sa" {
+resource "kubernetes_service_account_v1" "tekton_sa" {
   count                           = var.jx2 ? 1 : 0
   automount_service_account_token = true
   metadata {

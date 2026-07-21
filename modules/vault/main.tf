@@ -117,7 +117,7 @@ resource "google_service_account_iam_member" "vault_operator_workload_identity_u
   member             = "serviceAccount:${var.gcp_project}.svc.id.goog[${var.jenkins_x_namespace}/${var.cluster_name}-vt]"
 }
 
-resource "kubernetes_service_account" "vault_sa" {
+resource "kubernetes_service_account_v1" "vault_sa" {
   count                           = var.jx2 ? 1 : 0
   automount_service_account_token = true
   metadata {

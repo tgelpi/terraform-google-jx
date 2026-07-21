@@ -64,7 +64,7 @@ resource "google_service_account_iam_member" "velero_sa_workload_identity_user" 
 // ----------------------------------------------------------------------------
 // Setup Kubernetes Velero namespace and service account
 // ----------------------------------------------------------------------------
-resource "kubernetes_namespace" "velero_namespace" {
+resource "kubernetes_namespace_v1" "velero_namespace" {
   count = var.enable_backup && var.jx2 ? 1 : 0
 
   metadata {
@@ -79,7 +79,7 @@ resource "kubernetes_namespace" "velero_namespace" {
   }
 }
 
-resource "kubernetes_service_account" "velero_sa" {
+resource "kubernetes_service_account_v1" "velero_sa" {
   count = var.enable_backup && var.jx2 ? 1 : 0
 
   automount_service_account_token = true
@@ -100,6 +100,6 @@ resource "kubernetes_service_account" "velero_sa" {
   }
 
   depends_on = [
-    kubernetes_namespace.velero_namespace
+    kubernetes_namespace_v1.velero_namespace
   ]
 }

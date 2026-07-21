@@ -92,7 +92,7 @@ resource "google_service_account_iam_member" "certmanager_workload_identity_user
   member             = "serviceAccount:${var.gcp_project}.svc.id.goog[cert-manager/cert-manager]"
 }
 
-resource "kubernetes_service_account" "exdns-external-dns" {
+resource "kubernetes_service_account_v1" "exdns-external-dns" {
   count                           = var.jx2 ? 1 : 0
   automount_service_account_token = true
   metadata {
@@ -115,7 +115,7 @@ resource "kubernetes_service_account" "exdns-external-dns" {
 // Create Kubernetes namespace and service accounts for cert-manager
 // See https://github.com/jetstack/cert-manager
 // ----------------------------------------------------------------------------
-resource "kubernetes_namespace" "cert-manager" {
+resource "kubernetes_namespace_v1" "cert-manager" {
   count = var.jx2 ? 1 : 0
   metadata {
     name = var.cert-manager-namespace
@@ -135,7 +135,7 @@ resource "google_service_account_iam_member" "cm_cert_manager_workload_identity_
   member             = "serviceAccount:${var.gcp_project}.svc.id.goog[${var.cert-manager-namespace}/cm-cert-manager]"
 }
 
-resource "kubernetes_service_account" "cm-cert-manager" {
+resource "kubernetes_service_account_v1" "cm-cert-manager" {
   count                           = var.jx2 ? 1 : 0
   automount_service_account_token = true
   metadata {
@@ -153,7 +153,7 @@ resource "kubernetes_service_account" "cm-cert-manager" {
     ]
   }
   depends_on = [
-    kubernetes_namespace.cert-manager
+    kubernetes_namespace_v1.cert-manager
   ]
 }
 
@@ -165,7 +165,7 @@ resource "google_service_account_iam_member" "cm_cainjector_workload_identity_us
   member             = "serviceAccount:${var.gcp_project}.svc.id.goog[${var.cert-manager-namespace}/cm-cainjector]"
 }
 
-resource "kubernetes_service_account" "cm-cainjector" {
+resource "kubernetes_service_account_v1" "cm-cainjector" {
   count                           = var.jx2 ? 1 : 0
   automount_service_account_token = true
   metadata {
@@ -183,6 +183,6 @@ resource "kubernetes_service_account" "cm-cainjector" {
     ]
   }
   depends_on = [
-    kubernetes_namespace.cert-manager
+    kubernetes_namespace_v1.cert-manager
   ]
 }

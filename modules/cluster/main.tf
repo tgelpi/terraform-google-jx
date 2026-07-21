@@ -143,7 +143,7 @@ module "jx-health" {
 //
 // https://www.terraform.io/docs/providers/kubernetes/r/namespace.html
 // ----------------------------------------------------------------------------
-resource "kubernetes_namespace" "jenkins_x_namespace" {
+resource "kubernetes_namespace_v1" "jenkins_x_namespace" {
   count = var.jx2 ? 1 : 0
   metadata {
     name = var.jenkins_x_namespace
@@ -165,7 +165,7 @@ resource "kubernetes_namespace" "jenkins_x_namespace" {
 //
 // https://www.terraform.io/docs/providers/kubernetes/r/namespace.html
 // ----------------------------------------------------------------------------
-resource "kubernetes_config_map" "jenkins_x_requirements" {
+resource "kubernetes_config_map_v1" "jenkins_x_requirements" {
   count = var.jx2 ? 0 : 1
   metadata {
     name      = "terraform-jx-requirements"
